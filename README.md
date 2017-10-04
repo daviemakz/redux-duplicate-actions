@@ -12,7 +12,7 @@ This is a redux middleware that detects duplicate actions &amp; shows this in th
 // Only includes in DEV mode
 if (__DEV__) {
   // To throw a fatal error use the below:
-  const reduxDuplicateActions = require('redux-duplicate-actions')(true) 
+  const reduxDuplicateActions = require('redux-duplicate-actions')(true)
   reduxMiddleware.push(reduxDuplicateActions)
   // To just show a warning:
   const reduxDuplicateActions = require('redux-duplicate-actions')(false)
@@ -26,3 +26,7 @@ Run the following commands to test the module:
 
 `npm install`
 `npm test`
+
+# Contributing
+
+All contributions are very welcome, please read my [CONTRIBUTING.md](https://github.com/daviemakz/redux-duplicate-actions/blob/master/CONTRIBUTING.md) first. You can submit any ideas as [pull requests](https://github.com/daviemakz/redux-duplicate-actions/pulls) or as [GitHub issues](https://github.com/daviemakz/redux-duplicate-actions/issues). If you'd like to improve code, please feel free!
