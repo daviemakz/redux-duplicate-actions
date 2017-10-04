@@ -8,7 +8,7 @@
 
 This is a redux middleware that detects duplicate actions &amp; shows this in the console. Ideal for ensuring good redux practices. Development use only!
 
-### Usage
+## Usage
 
 ```js
 // Only includes in DEV mode
@@ -22,12 +22,12 @@ if (__DEV__) {
 }
 ```
 
-### Test
+## Test
 
 Run the following commands to test the module:
 
 `npm install && npm test`
 
-# Contributing
+## Contributing
 
 All contributions are very welcome, please read my [CONTRIBUTING.md](https://github.com/daviemakz/redux-duplicate-actions/blob/master/CONTRIBUTING.md) first. You can submit any ideas as [pull requests](https://github.com/daviemakz/redux-duplicate-actions/pulls) or as [GitHub issues](https://github.com/daviemakz/redux-duplicate-actions/issues). If you'd like to improve code, please feel free!
