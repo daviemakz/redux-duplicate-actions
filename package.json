@@ -4,7 +4,7 @@
   "description": "This is a redux middleware that detects duplicate actions & shows this in the console. You can choose to make them fatal errors or friendly warnings! Development use only!",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel/register 'test/*.js'",
+    "test": "mocha --compilers js:babel-core/register 'test/*.js'",
     "prepublish": "rimraf lib && babel src --out-dir lib",
     "format": "prettier --single-quote --trailing-comma=es5 --write './**/*.js'"
   },
@@ -23,12 +23,14 @@
   ],
   "author": "David Makuni <d.makuni@live.co.uk> (https://github.com/daviemakz)",
   "devDependencies": {
-    "babel": "^5.8.34",
-    "chai": "^3.4.1",
-    "mocha": "^2.3.4",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.0",
     "prettier": "^1.7.4",
     "rimraf": "^2.4.4",
-    "sinon": "^1.17.2"
+    "sinon": "^4.0.1"
   },
   "license": "MIT",
   "bugs": {
