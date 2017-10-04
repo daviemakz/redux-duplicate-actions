@@ -24,8 +24,7 @@ if (__DEV__) {
 
 Run the following commands to test the module:
 
-`npm install`
-`npm test`
+`npm install && npm test`
 
 # Contributing
 
