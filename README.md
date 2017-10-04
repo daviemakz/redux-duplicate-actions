@@ -12,10 +12,10 @@ This is a redux middleware that detects duplicate actions &amp; shows this in th
 // Only includes in DEV mode
 if (__DEV__) {
   // To throw a fatal error use the below:
-  const reduxDuplicateActions = require('redux-duplicate-actions')(true)
+  const reduxDuplicateActions = require('redux-duplicate-actions')(true) 
   reduxMiddleware.push(reduxDuplicateActions)
   // To just show a warning:
-  const reduxDuplicateActions = require('redux-duplicate-actions')()
+  const reduxDuplicateActions = require('redux-duplicate-actions')(false)
   reduxMiddleware.push(reduxDuplicateActions)
 }
 ```
