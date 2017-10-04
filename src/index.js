@@ -1,9 +1,8 @@
 'use strict';
 
 import { fingerprint64 } from 'farmhash';
-import stringify from 'fast-json-stringify';
 
-var lastActionHash = undefined;
+var lastActionHash = '';
 
 export default function checkDispatch(store) {
   return next => action => {
@@ -22,18 +21,18 @@ export default function checkDispatch(store) {
   };
 }
 
-function getHash(action) {
-  return fingerprint64(stringify(Object.assign(action)));
+function getHash(action = '') {
+  return fingerprint64(JSON.stringify(action));
 }
 
-function checkHash(action) {
-  if (stringify(getHash(action)) === stringify(lastActionHash)) {
+function checkHash(action = '') {
+  if (getHash(action) === lastActionHash) {
     return false;
   } else {
     return true;
   }
 }
 
-function updateHash(action) {
-  lastActionHash = stringify(getHash(action));
+function updateHash(action = '') {
+  lastActionHash = getHash(action);
 }
