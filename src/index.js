@@ -27,8 +27,7 @@ function getHash(action) {
 }
 
 function checkHash(action) {
-  var currentActionHash = getHash(action);
-  if (stringify(currentActionHash) === stringify(lastActionHash)) {
+  if (stringify(getHash(action)) === stringify(lastActionHash)) {
     return false;
   } else {
     return true;
@@ -36,5 +35,5 @@ function checkHash(action) {
 }
 
 function updateHash(action) {
-  lastActionHash = getHash(action);
+  lastActionHash = stringify(getHash(action));
 }
