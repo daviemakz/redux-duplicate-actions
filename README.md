@@ -8,6 +8,8 @@
 
 This is a redux middleware that detects duplicate actions &amp; shows this in the console. Ideal for ensuring good redux practices. Development use only!
 
+*Supports Node 4.x +*  
+
 ## Usage
 
 ```js
