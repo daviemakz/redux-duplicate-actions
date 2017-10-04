@@ -3,7 +3,7 @@
 import { fingerprint64 } from 'farmhash';
 import stringify from 'fast-json-stringify';
 
-let lastActionHash = undefined;
+var lastActionHash = undefined;
 
 export default function checkDispatch(store) {
   return next => action => {
@@ -27,8 +27,8 @@ function getHash(action) {
 }
 
 function checkHash(action) {
-  let currentActionHash = getHash(action);
-  if (currentActionHash === lastActionHash) {
+  var currentActionHash = getHash(action);
+  if (stringify(currentActionHash) === stringify(lastActionHash)) {
     return false;
   } else {
     return true;
