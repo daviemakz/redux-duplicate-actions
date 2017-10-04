@@ -10,11 +10,7 @@ export default function checkDispatch(fatal = true) {
   };
 
   const checkHash = function(action = '') {
-    if (getHash(action) === lastActionHash) {
-      return false;
-    } else {
-      return true;
-    }
+    return !(getHash(action) === lastActionHash);
   };
 
   const updateHash = function(action = '') {
