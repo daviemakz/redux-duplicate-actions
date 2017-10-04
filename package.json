@@ -2,9 +2,11 @@
   "name": "redux-duplicate-actions",
   "version": "1.0.0",
   "description": "This is a redux middleware that detects duplicate actions & shows this in the console. You can choose to make them fatal errors or friendly warnings! Development use only!",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "mocha --compilers js:babel/register 'test/*.js'",
+    "prepublish": "rimraf lib && babel src --out-dir lib",
+    "format": "prettier --single-quote --trailing-comma=es5 --write './**/*.js'"
   },
   "repository": {
     "type": "git",
@@ -12,14 +14,29 @@
   },
   "keywords": [
     "redux",
+    "flux",
+    "middleware",
+    "redux-middleware",
     "dispatch",
     "duplicate",
     "actions"
   ],
-  "author": "David Makuni",
+  "author": "David Makuni <d.makuni@live.co.uk> (https://github.com/daviemakz)",
+  "devDependencies": {
+    "babel": "^5.8.34",
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4",
+    "prettier": "^1.7.4",
+    "rimraf": "^2.4.4",
+    "sinon": "^1.17.2"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/daviemakz/redux-duplicate-actions/issues"
   },
-  "homepage": "https://github.com/daviemakz/redux-duplicate-actions#readme"
+  "homepage": "https://github.com/daviemakz/redux-duplicate-actions#readme",
+  "dependencies": {
+    "farmhash": "^2.0.4",
+    "fast-json-stringify": "^0.13.1"
+  }
 }
