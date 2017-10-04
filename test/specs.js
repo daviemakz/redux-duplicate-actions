@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import sinon from 'sinon';
-import freeze from '../src/middleware';
+import freeze from '../src/index';
 
-describe('redux-freeze', () => {
+describe('redux-duplicate-actions', () => {
   const dispatch = () => {};
 
   it('should throw when mutation occurs during action dispatching', () => {
