@@ -1,8 +1,16 @@
 'use strict';
 
+// Load NPM modules
 import { assert } from 'chai';
 import sinon from 'sinon';
 import checkDispatch from '../src/index';
+
+// Get middleware instalce
+const middlewareFatal = new checkDispatch(true);
+const middlewareNonFatal = new checkDispatch(false);
+
+// Remove console.warn
+console.warn = () => {};
 
 // Define actions
 const actionOne = {
@@ -54,6 +62,7 @@ const actionFour = {
   },
 };
 
+// Test
 describe('redux-duplicate-actions', () => {
   const dispatch = () => {};
 
@@ -65,7 +74,7 @@ describe('redux-duplicate-actions', () => {
       state.prop = 0;
     };
     assert.doesNotThrow(() => {
-      checkDispatch({ dispatch, getState })(next)(actionOne);
+      middlewareFatal({ dispatch, getState })(next)(actionOne);
     }, TypeError);
   });
 
@@ -77,7 +86,7 @@ describe('redux-duplicate-actions', () => {
       state.prop = 0;
     };
     assert.throws(() => {
-      checkDispatch({ dispatch, getState })(next)(actionOne);
+      middlewareFatal({ dispatch, getState })(next)(actionOne);
     }, TypeError);
   });
 
@@ -89,7 +98,7 @@ describe('redux-duplicate-actions', () => {
       state.prop = 0;
     };
     assert.doesNotThrow(() => {
-      checkDispatch({ dispatch, getState })(next)(actionTwo);
+      middlewareFatal({ dispatch, getState })(next)(actionTwo);
     }, TypeError);
   });
 
@@ -101,7 +110,7 @@ describe('redux-duplicate-actions', () => {
       state.prop = 0;
     };
     assert.throws(() => {
-      checkDispatch({ dispatch, getState })(next)(actionTwo);
+      middlewareFatal({ dispatch, getState })(next)(actionTwo);
     }, TypeError);
   });
 
@@ -113,7 +122,7 @@ describe('redux-duplicate-actions', () => {
       state.prop = 0;
     };
     assert.doesNotThrow(() => {
-      checkDispatch({ dispatch, getState })(next)(actionThree);
+      middlewareFatal({ dispatch, getState })(next)(actionThree);
     }, TypeError);
   });
 
@@ -125,7 +134,7 @@ describe('redux-duplicate-actions', () => {
       state.prop = 0;
     };
     assert.throws(() => {
-      checkDispatch({ dispatch, getState })(next)(actionThree);
+      middlewareFatal({ dispatch, getState })(next)(actionThree);
     }, TypeError);
   });
 
@@ -137,7 +146,7 @@ describe('redux-duplicate-actions', () => {
       state.prop = 0;
     };
     assert.doesNotThrow(() => {
-      checkDispatch({ dispatch, getState })(next)(actionFour);
+      middlewareFatal({ dispatch, getState })(next)(actionFour);
     }, TypeError);
   });
 
@@ -149,7 +158,103 @@ describe('redux-duplicate-actions', () => {
       state.prop = 0;
     };
     assert.throws(() => {
-      checkDispatch({ dispatch, getState })(next)(actionFour);
+      middlewareFatal({ dispatch, getState })(next)(actionFour);
+    }, TypeError);
+  });
+
+  it('action type: one | should not throw a "TypeError", non duplicate action', () => {
+    const state = {};
+    const getState = () => state;
+    const next = () => {
+      const state = getState();
+      state.prop = 0;
+    };
+    assert.doesNotThrow(() => {
+      middlewareNonFatal({ dispatch, getState })(next)(actionOne);
+    }, TypeError);
+  });
+
+  it('action type: one | should throw a "TypeError", duplicate action', () => {
+    const state = {};
+    const getState = () => state;
+    const next = () => {
+      const state = getState();
+      state.prop = 0;
+    };
+    assert.doesNotThrow(() => {
+      middlewareNonFatal({ dispatch, getState })(next)(actionOne);
+    }, TypeError);
+  });
+
+  it('action type: two | should not throw a "TypeError", non duplicate action', () => {
+    const state = {};
+    const getState = () => state;
+    const next = () => {
+      const state = getState();
+      state.prop = 0;
+    };
+    assert.doesNotThrow(() => {
+      middlewareNonFatal({ dispatch, getState })(next)(actionTwo);
+    }, TypeError);
+  });
+
+  it('action type: two | should throw a "TypeError", duplicate action', () => {
+    const state = {};
+    const getState = () => state;
+    const next = () => {
+      const state = getState();
+      state.prop = 0;
+    };
+    assert.doesNotThrow(() => {
+      middlewareNonFatal({ dispatch, getState })(next)(actionTwo);
+    }, TypeError);
+  });
+
+  it('action type: three | should not throw a "TypeError", non duplicate action', () => {
+    const state = {};
+    const getState = () => state;
+    const next = () => {
+      const state = getState();
+      state.prop = 0;
+    };
+    assert.doesNotThrow(() => {
+      middlewareNonFatal({ dispatch, getState })(next)(actionThree);
+    }, TypeError);
+  });
+
+  it('action type: three | should throw a "TypeError", duplicate action', () => {
+    const state = {};
+    const getState = () => state;
+    const next = () => {
+      const state = getState();
+      state.prop = 0;
+    };
+    assert.doesNotThrow(() => {
+      middlewareNonFatal({ dispatch, getState })(next)(actionThree);
+    }, TypeError);
+  });
+
+  it('action type: four | should not throw a "TypeError", non duplicate action', () => {
+    const state = {};
+    const getState = () => state;
+    const next = () => {
+      const state = getState();
+      state.prop = 0;
+    };
+    assert.doesNotThrow(() => {
+      middlewareNonFatal({ dispatch, getState })(next)(actionFour);
+    }, TypeError);
+  });
+
+  it('action type: four | should throw a "TypeError", duplicate action', () => {
+    const state = {};
+    const getState = () => state;
+    const next = () => {
+      const state = getState();
+      state.prop = 0;
+    };
+    assert.doesNotThrow(() => {
+      middlewareNonFatal({ dispatch, getState })(next)(actionFour);
     }, TypeError);
   });
 });

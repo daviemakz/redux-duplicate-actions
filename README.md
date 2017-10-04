@@ -10,8 +10,12 @@ This is a redux middleware that detects duplicate actions &amp; shows this in th
 
 ```js
 // Only includes in DEV mode
-if (development_mode) {
-  const reduxDuplicateActions = require('redux-duplicate-actions')
+if (__DEV__) {
+  // To throw a fatal error use the below:
+  const reduxDuplicateActions = require('redux-duplicate-actions')(true)
+  reduxMiddleware.push(reduxDuplicateActions)
+  // To just show a warning:
+  const reduxDuplicateActions = require('redux-duplicate-actions')()
   reduxMiddleware.push(reduxDuplicateActions)
 }
 ```

@@ -2,37 +2,40 @@
 
 import { fingerprint64 } from 'farmhash';
 
-var lastActionHash = '';
+export default function checkDispatch(fatal = true) {
+  let lastActionHash = '';
 
-export default function checkDispatch(store) {
-  return next => action => {
+  const getHash = function(action = '') {
+    return fingerprint64(JSON.stringify(action));
+  };
+
+  const checkHash = function(action = '') {
+    if (getHash(action) === lastActionHash) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const updateHash = function(action = '') {
+    lastActionHash = getHash(action);
+  };
+
+  return store => next => action => {
     if (checkHash(action)) {
       updateHash(action);
       return next(action);
     } else {
-      throw new TypeError(
-        `[redux-duplicate-actions] A duplicate action has been detected. MORE INFO: ${JSON.stringify(
-          action,
-          null,
-          2
-        )}`
-      );
+      let message = `[redux-duplicate-actions] A duplicate action has been detected. MORE INFO: ${JSON.stringify(
+        action,
+        null,
+        2
+      )}`;
+      if (fatal) {
+        throw new TypeError(message);
+      } else {
+        console.warn(message);
+      }
     }
   };
-}
-
-function getHash(action = '') {
-  return fingerprint64(JSON.stringify(action));
-}
-
-function checkHash(action = '') {
-  if (getHash(action) === lastActionHash) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-function updateHash(action = '') {
-  lastActionHash = getHash(action);
 }
