@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha --no-deprecation --compilers js:babel-core/register 'test/*.js'",
     "prepublish": "rimraf lib && babel src --out-dir lib",
-    "format": "prettier --single-quote --trailing-comma=es5 --write './**/*.js'"
+    "format": "prettier --single-quote --trailing-comma=es5 --write './**/*.js'",
+    "postinstall": "rimraf lib && babel src --out-dir lib"
   },
   "repository": {
     "type": "git",
