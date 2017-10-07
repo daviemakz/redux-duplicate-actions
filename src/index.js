@@ -31,6 +31,7 @@ export default function checkDispatch(fatal = true) {
         throw new TypeError(message);
       } else {
         console.warn(message);
+        return next(action);
       }
     }
   };
