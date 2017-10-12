@@ -23,13 +23,13 @@
   ],
   "author": "David Makuni <d.makuni@live.co.uk> (https://github.com/daviemakz)",
   "dependencies": {
-    "farmhash": "^2.0.4",
-    "fast-json-stringify": "^0.13.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
+    "farmhash": "^2.0.4",
+    "fast-json-stringify": "^0.14.0",
     "mocha": "^4.0.0",
     "prettier": "^1.7.4",
     "rimraf": "^2.4.4",
@@ -39,5 +39,8 @@
   "bugs": {
     "url": "https://github.com/daviemakz/redux-duplicate-actions/issues"
   },
-  "homepage": "https://github.com/daviemakz/redux-duplicate-actions#readme"
+  "homepage": "https://github.com/daviemakz/redux-duplicate-actions#readme",
+  "devDependencies": {
+    "mocha": "^4.0.1"
+  }
 }
