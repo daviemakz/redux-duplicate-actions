@@ -1,12 +1,12 @@
 'use strict';
 
-import { fingerprint64 } from 'farmhash';
+const HashKey = require('md5');
 
 export default function checkDispatch(fatal = true) {
   let lastActionHash = '';
 
   const getHash = function(action = '') {
-    return fingerprint64(JSON.stringify(action));
+    return HashKey(JSON.stringify(action));
   };
 
   const checkHash = function(action = '') {
