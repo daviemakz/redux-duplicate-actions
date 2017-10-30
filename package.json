@@ -4,8 +4,10 @@
   "description": "This is a redux middleware that detects duplicate actions & shows this in the console. You can choose to make them fatal errors or friendly warnings! Development use only!",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha --no-deprecation --compilers js:babel-core/register 'test/*.js'",
+    "pretest": "npm run postinstall",
+    "test": "mocha --no-deprecation --compilers js:babel-core/register ./test/*.js",
     "format": "prettier --single-quote --trailing-comma=es5 --write './**/*.js'",
+    "prepublishOnly": "npm run format",
     "postinstall": "rimraf lib && babel src --out-dir lib"
   },
   "repository": {
@@ -28,6 +30,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
+    "circular-json": "^0.4.0",
     "farmhash": "^2.0.4",
     "fast-json-stringify": "^0.14.0",
     "md5": "^2.2.1",

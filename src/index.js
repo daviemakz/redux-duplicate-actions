@@ -1,12 +1,13 @@
 'use strict';
 
 const HashKey = require('md5');
+const CircularJSON = require('circular-json');
 
 export default function checkDispatch(fatal = true) {
   let lastActionHash = '';
 
   const getHash = function(action = '') {
-    return HashKey(JSON.stringify(action));
+    return HashKey(CircularJSON.stringify(action));
   };
 
   const checkHash = function(action = '') {
@@ -22,7 +23,7 @@ export default function checkDispatch(fatal = true) {
       updateHash(action);
       return next(action);
     } else {
-      let message = `[redux-duplicate-actions] A duplicate action has been detected. MORE INFO: ${JSON.stringify(
+      let message = `[redux-duplicate-actions] A duplicate action has been detected. MORE INFO: ${CircularJSON.stringify(
         action,
         null,
         2
