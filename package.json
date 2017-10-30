@@ -7,7 +7,6 @@
     "pretest": "npm run postinstall",
     "test": "mocha --no-deprecation --compilers js:babel-core/register ./test/*.js",
     "format": "prettier --single-quote --trailing-comma=es5 --write './**/*.js'",
-    "prepublishOnly": "npm run format",
     "postinstall": "rimraf lib && babel src --out-dir lib"
   },
   "repository": {
