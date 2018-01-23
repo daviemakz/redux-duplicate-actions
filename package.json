@@ -33,9 +33,9 @@
     "farmhash": "^2.0.4",
     "fast-json-stringify": "^0.14.0",
     "md5": "^2.2.1",
-    "prettier": "^1.7.4",
+    "prettier": "^1.10.2",
     "rimraf": "^2.4.4",
-    "sinon": "^4.0.1"
+    "sinon": "^4.2.0"
   },
   "license": "MIT",
   "bugs": {
@@ -43,6 +43,6 @@
   },
   "homepage": "https://github.com/daviemakz/redux-duplicate-actions#readme",
   "devDependencies": {
-    "mocha": "^4.0.1"
+    "mocha": "^4.1.0"
   }
 }
