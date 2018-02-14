@@ -1,5 +1,7 @@
 # Redux Duplicate Action Monitor
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/daviemakz/redux-duplicate-actions.svg)](https://greenkeeper.io/)
+
 [![NPM](https://nodei.co/npm/redux-duplicate-actions.png?compact=true)](https://www.npmjs.com/package/redux-duplicate-actions)  
 
 [![Build Status](https://travis-ci.org/daviemakz/redux-duplicate-actions.svg?branch=master)](https://travis-ci.org/daviemakz/redux-duplicate-actions)
