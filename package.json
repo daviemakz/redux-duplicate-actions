@@ -1,6 +1,6 @@
 {
   "name": "redux-duplicate-actions",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "description": "This is a redux middleware that detects duplicate actions & shows this in the console. You can choose to make them fatal errors or friendly warnings! Development use only!",
   "main": "lib/index.js",
   "scripts": {
