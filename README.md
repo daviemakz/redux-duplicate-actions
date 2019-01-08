@@ -1,6 +1,7 @@
 # Redux Duplicate Action Monitor
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/daviemakz/redux-duplicate-actions.svg)](https://greenkeeper.io/)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdaviemakz%2Fredux-duplicate-actions.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdaviemakz%2Fredux-duplicate-actions?ref=badge_shield)
 
 [![NPM](https://nodei.co/npm/redux-duplicate-actions.png?compact=true)](https://www.npmjs.com/package/redux-duplicate-actions)  
 
@@ -35,3 +36,7 @@ Run the following commands to test the module:
 ## Contributing
 
 All contributions are very welcome, please read my [CONTRIBUTING.md](https://github.com/daviemakz/redux-duplicate-actions/blob/master/CONTRIBUTING.md) first. You can submit any ideas as [pull requests](https://github.com/daviemakz/redux-duplicate-actions/pulls) or as [GitHub issues](https://github.com/daviemakz/redux-duplicate-actions/issues). If you'd like to improve code, please feel free!
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdaviemakz%2Fredux-duplicate-actions.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdaviemakz%2Fredux-duplicate-actions?ref=badge_large)
