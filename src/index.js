@@ -1,8 +1,8 @@
 'use strict';
 
 // Load NPM modules
-const hashKey = require('md5');
-const circularJson = require('circular-json');
+import hashKey from 'md5';
+import circularJson from 'circular-json';
 
 // Export
 export default function checkDispatch(fatal = true) {
@@ -15,8 +15,7 @@ export default function checkDispatch(fatal = true) {
   // Middleware
   return store => next => action => {
     if (checkHash(action)) {
-      updateHash(action);
-      return next(action);
+      return updateHash(action) && next(action);
     } else {
       // Define message
       let message = `[redux-duplicate-actions] A duplicate action has been detected. MORE INFO: ${circularJson.stringify(
@@ -28,8 +27,7 @@ export default function checkDispatch(fatal = true) {
       if (fatal) {
         throw new TypeError(message);
       } else {
-        console.warn(message);
-        return next(action);
+        return console.warn(message) || next(action);
       }
     }
   };

@@ -2,7 +2,6 @@
 
 // Load NPM modules
 import { assert } from 'chai';
-import sinon from 'sinon';
 import checkDispatch from '../src/index';
 
 // Get middleware instalce
