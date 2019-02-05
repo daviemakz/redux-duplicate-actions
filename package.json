@@ -30,7 +30,7 @@
     "babel-register": "^6.26.0",
     "circular-json": "^0.5.9",
     "farmhash": "^2.1.0",
-    "fast-json-stringify": "^1.10.0",
+    "fast-json-stringify": "^1.11.0",
     "md5": "^2.2.1",
     "chai": "^4.2.0",
     "prettier": "^1.15.3",
