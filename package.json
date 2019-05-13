@@ -33,7 +33,7 @@
     "fast-json-stringify": "^1.10.0",
     "md5": "^2.2.1",
     "chai": "^4.2.0",
-    "prettier": "^1.15.3",
+    "prettier": "1.17.0",
     "rimraf": "^2.6.3"
   },
   "license": "MIT",
