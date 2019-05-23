@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "pretest": "npm run postinstall",
-    "test": "mocha --no-deprecation --compilers js:babel-core/register ./test/*.js",
+    "test": "mocha --require babel-core/register ./test/*.js",
     "format": "prettier --single-quote --trailing-comma=es5 --write './**/*.js'",
     "postinstall": "rimraf lib && babel src --out-dir lib"
   },
