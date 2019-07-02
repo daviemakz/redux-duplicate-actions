@@ -29,7 +29,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.26.0",
     "circular-json": "^0.5.9",
-    "farmhash": "^2.1.0",
+    "farmhash": "^3.0.0",
     "fast-json-stringify": "^1.10.0",
     "md5": "^2.2.1",
     "chai": "^4.2.0",
