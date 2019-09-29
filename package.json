@@ -42,6 +42,6 @@
   },
   "homepage": "https://github.com/daviemakz/redux-duplicate-actions#readme",
   "devDependencies": {
-    "mocha": "^6.0.0"
+    "mocha": "^6.2.1"
   }
 }
