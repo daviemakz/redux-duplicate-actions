@@ -28,11 +28,12 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.26.0",
+    "chai": "^4.2.0",
     "circular-json": "^0.5.9",
     "farmhash": "^3.0.0",
     "fast-json-stringify": "^1.10.0",
+    "lodash": "^4.17.15",
     "md5": "^2.2.1",
-    "chai": "^4.2.0",
     "prettier": "^1.15.3",
     "rimraf": "^3.0.0"
   },
