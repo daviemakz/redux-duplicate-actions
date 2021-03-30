@@ -1,6 +1,6 @@
 {
   "name": "redux-duplicate-actions",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "This is a redux middleware that detects duplicate actions & shows this in the console. You can choose to make them fatal errors or friendly warnings! Development use only!",
   "main": "lib/index.js",
   "scripts": {
@@ -24,10 +24,6 @@
   ],
   "author": "David Makuni <d.makuni@live.co.uk> (https://github.com/daviemakz)",
   "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
-    "babel-register": "^6.26.0",
     "chai": "^4.2.0",
     "circular-json": "^0.5.9",
     "farmhash": "^3.0.0",
@@ -43,6 +39,10 @@
   },
   "homepage": "https://github.com/daviemakz/redux-duplicate-actions#readme",
   "devDependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.14",
+    "@babel/preset-env": "^7.13.12",
+    "@babel/register": "^7.13.14",
     "mocha": "^7.0.1"
   }
 }
