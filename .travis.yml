@@ -4,3 +4,18 @@ node_js:
   - "11"
   - "12"
   - "lts/*"
+
+script:
+  - echo "Running tests against $(node -v) ..."
+  - yarn test
+
+jobs:
+  include:
+    - stage: release
+      node_js: "12"
+      name: "npm"
+      script: echo "Deploying to npm ..."
+      deploy:
+        provider: npm
+        email: $NPM_EMAIL
+        api_key: $NPM_TOKEN
