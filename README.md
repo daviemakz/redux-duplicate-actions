@@ -1,4 +1,4 @@
-<p align="center">
+<p align="left">
 <a href="https://www.npmjs.com/package/redux-duplicate-actions" target="_blank"><img src="https://img.shields.io/npm/v/redux-duplicate-actions" alt="npm"/></a>
 <a href="https://travis-ci.org/daviemakz/redux-duplicate-actions" target="_blank"><img src="https://travis-ci.org/daviemakz/redux-duplicate-actions.svg?branch=master" alt="Build Status"/></a>
 <a href="https://www.npmjs.com/package/redux-duplicate-actions" target="_blank"><img src="https://img.shields.io/npm/dm/redux-duplicate-actions.svg" alt="Downloads"/></a>
