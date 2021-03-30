@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "pretest": "npm run postinstall",
-    "test": "mocha --require babel-core/register ./test/*.js",
+    "test": "mocha --require @babel/register ./test/*.js",
     "format": "prettier --single-quote --trailing-comma=es5 --write './**/*.js'",
     "postinstall": "rimraf lib && babel src --out-dir lib"
   },
@@ -24,6 +24,10 @@
   ],
   "author": "David Makuni <d.makuni@live.co.uk> (https://github.com/daviemakz)",
   "dependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.14",
+    "@babel/preset-env": "^7.13.12",
+    "@babel/register": "^7.13.14",
     "chai": "^4.2.0",
     "circular-json": "^0.5.9",
     "farmhash": "^3.0.0",
@@ -39,10 +43,6 @@
   },
   "homepage": "https://github.com/daviemakz/redux-duplicate-actions#readme",
   "devDependencies": {
-    "@babel/cli": "^7.13.14",
-    "@babel/core": "^7.13.14",
-    "@babel/preset-env": "^7.13.12",
-    "@babel/register": "^7.13.14",
     "mocha": "^7.0.1"
   }
 }
