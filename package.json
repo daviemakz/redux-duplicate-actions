@@ -7,7 +7,7 @@
     "pretest": "npm run postinstall",
     "test": "mocha --require @babel/register ./test/*.js",
     "format": "prettier --single-quote --trailing-comma=es5 --write './**/*.js'",
-    "pre-commit": "rimraf dist && babel src --out-dir dist && git add ."
+    "precommit": "rimraf dist && babel src --out-dir dist && git add ."
   },
   "repository": {
     "type": "git",
