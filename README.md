@@ -1,5 +1,3 @@
-# Redux Duplicate Action Monitor
-
 <p align="center">
 <a href="https://www.npmjs.com/package/redux-duplicate-actions" target="_blank"><img src="https://img.shields.io/npm/v/redux-duplicate-actions" alt="npm"/></a>
 <a href="https://travis-ci.org/daviemakz/redux-duplicate-actions" target="_blank"><img src="https://travis-ci.org/daviemakz/redux-duplicate-actions.svg?branch=master" alt="Build Status"/></a>
@@ -9,6 +7,8 @@
 <a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fdaviemakz%2Fredux-duplicate-actions?ref=badge_shield" target="_blank"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdaviemakz%2Fredux-duplicate-actions.svg?type=shield" alt="FOSSA Status"/></a>
 <a href="https://www.npmjs.com/package/redux-duplicate-actions" target="_blank"><img src="https://img.shields.io/npm/l/redux-duplicate-actions" alt="NPM"/></a>
 </p>
+
+# Redux Duplicate Action Monitor
 
 This is a redux middleware that detects duplicate actions &amp; shows this in the console. Ideal for ensuring good redux practices. Development use only!
 
