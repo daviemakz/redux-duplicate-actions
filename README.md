@@ -1,7 +1,5 @@
 # Redux Duplicate Action Monitor
 
-<p align="center">This is a redux middleware that detects duplicate actions &amp; shows this in the console. Ideal for ensuring good redux practices. Development use only!</p>
-
 <p align="center">
 <a href="https://www.npmjs.com/package/redux-duplicate-actions" target="_blank"><img src="https://img.shields.io/npm/v/redux-duplicate-actions" alt="npm"/></a>
 <a href="https://travis-ci.org/daviemakz/redux-duplicate-actions" target="_blank"><img src="https://travis-ci.org/daviemakz/redux-duplicate-actions.svg?branch=master" alt="Build Status"/></a>
