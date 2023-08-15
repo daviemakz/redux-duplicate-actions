@@ -1,0 +1,11 @@
+.eslintrc.js
+.prettierrc
+.babelrc
+.prettierignore
+.prettierrc.json
+.travis.yml
+verify-integrity.sh
+*.spec.js
+tsconfig.json
+src/
+node_modules/
