@@ -11,6 +11,17 @@
 
 This is a redux middleware that detects duplicate actions &amp; shows this in the console. Ideal for ensuring good redux practices. Development use only!
 
+If there is a duplicate action you will see this in the browser console:
+
+```
+[redux-duplicate-actions] A duplicate action has been detected.
+[redux-duplicate-actions] Unique action hash: e6d0f668
+[redux-duplicate-actions] Unpacked action: {type: 'SET_DATA', payload: {…}}
+[redux-duplicate-actions] Original action: {type: 'SET_DATA', payload: ƒ} // Read below
+```
+
+If your payload is a function the middleware we will attempt to unpack it and show you the actual data. It does this by simply running the function against `store.getState()`. So effectively `action.payload(store.getState())`. If this fails it will do the comparison as normal.
+
 _Supports Node 10.x +_
 
 ### Installation

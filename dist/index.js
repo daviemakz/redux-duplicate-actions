@@ -11,6 +11,8 @@ var _circularJson = _interopRequireDefault(require('circular-json'));
 
 var _lodash = require('lodash');
 
+var _consoleLogColors = require('console-log-colors');
+
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
@@ -64,10 +66,53 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
+function _toConsumableArray(arr) {
+  return (
+    _arrayWithoutHoles(arr) ||
+    _iterableToArray(arr) ||
+    _unsupportedIterableToArray(arr) ||
+    _nonIterableSpread()
+  );
+}
+
+function _nonIterableSpread() {
+  throw new TypeError(
+    'Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
+  );
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === 'string') return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === 'Object' && o.constructor) n = o.constructor.name;
+  if (n === 'Map' || n === 'Set') return Array.from(o);
+  if (n === 'Arguments' || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
+    return _arrayLikeToArray(o, minLen);
+}
+
+function _iterableToArray(iter) {
+  if (typeof Symbol !== 'undefined' && Symbol.iterator in Object(iter))
+    return Array.from(iter);
+}
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+}
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+  return arr2;
+}
+
 var allowedLogLevel = ['log', 'warn', 'error'];
+var PKG_NAME = '[redux-duplicate-actions]';
 var DEFAULT_OPTIONS = {
   fatal: true,
-  logLevel: 'warn',
+  logLevel: 'log',
   payloadKey: 'payload'
 };
 
@@ -77,7 +122,12 @@ var log = function log(_ref) {
 
   if ((0, _lodash.has)(console, logLevel)) {
     var logFunc = console[logLevel];
-    logFunc(message);
+    logFunc.apply(
+      void 0,
+      [_consoleLogColors.grey.bold(PKG_NAME)].concat(
+        _toConsumableArray(Array.isArray(message) ? message : [message])
+      )
+    );
   }
 };
 
@@ -94,19 +144,32 @@ var processActionIfPayloadFunction = function processActionIfPayloadFunction(
 
         if (typeof actionPayload === 'function') {
           try {
-            var newPayload = actionPayload(state);
-            return _objectSpread(
+            var resolvedState = (0, _lodash.get)(
+              state,
+              (action === null || action === void 0 ? void 0 : action.target) ||
+                '',
+              state
+            );
+            var newPayload = actionPayload(resolvedState);
+
+            var resolvedAction = _objectSpread(
               _objectSpread({}, action),
               {},
               _defineProperty({}, payloadKey, newPayload)
             );
+
+            return resolvedAction;
           } catch (e) {
             log({
               logLevel: logLevel,
               message:
-                '[redux-duplicate-actions] Unable to run payload function, returning original action. MORE INFO: '.concat(
+                'Unable to run payload function, returning original action. MORE INFO: '.concat(
                   e
                 )
+            });
+            log({
+              logLevel: logLevel,
+              message: e
             });
             return action;
           }
@@ -162,7 +225,7 @@ var checkDuplicateDispatch = function checkDuplicateDispatch(options) {
     log({
       logLevel: 'log',
       message:
-        '[redux-duplicate-actions] Passing a boolean to redux-duplicate-actions is deprecated. Please use the options in the README.md instead.'
+        'Passing a boolean to redux-duplicate-actions is deprecated. Please use the options in the README.md instead.'
     });
     mergedOptions = _objectSpread(
       _objectSpread({}, DEFAULT_OPTIONS),
@@ -222,17 +285,37 @@ var checkDuplicateDispatch = function checkDuplicateDispatch(options) {
         } else {
           // Define message
           var _message =
-            '[redux-duplicate-actions] A duplicate action has been detected. MORE INFO: '.concat(
-              _circularJson['default'].stringify(action, null, 2)
-            ); // Handle fatal or not?
+            'A duplicate action has been detected. \n\nAction Unique Hash: '
+              .concat(lastActionHash, '\n\nAction:\n\n')
+              .concat(
+                _circularJson['default'].stringify(processedAction, null, 2)
+              ); // Handle fatal or not?
 
           if (fatal) {
             throw new TypeError(_message);
           } else {
             log({
               logLevel: logLevel,
-              message: _message
+              message: 'A duplicate action has been detected.'
             });
+            log({
+              logLevel: logLevel,
+              message: 'Unique action hash: '.concat(lastActionHash)
+            }); // We only show this if the action key payload was a function
+
+            if (typeof action[payloadKey] === 'function') {
+              console.log(
+                _consoleLogColors.grey.bold(PKG_NAME),
+                'Unpacked action:',
+                processedAction
+              );
+            } // Always show the original action
+
+            console.log(
+              _consoleLogColors.grey.bold(PKG_NAME),
+              'Original action:',
+              action
+            );
             return next(action);
           }
         }

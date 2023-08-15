@@ -3,7 +3,6 @@
   "trailingComma": "none",
   "bracketSpacing": true,
   "endOfLine": "auto",
-  "jsxBracketSameLine": true,
   "arrowParens": "avoid",
   "useTabs": false,
   "quoteProps": "consistent",

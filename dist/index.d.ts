@@ -7,6 +7,7 @@ interface DefaultOptions {
   payloadKey: string;
 }
 interface ReduxAction {
+  target?: string;
   [key: string]: unknown;
 }
 interface Store {

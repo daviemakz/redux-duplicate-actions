@@ -4,8 +4,9 @@
   "description": "This is a redux middleware that detects duplicate actions & shows this in the console. You can choose to make them fatal errors or friendly warnings! Development use only!",
   "main": "dist/index.js",
   "scripts": {
-    "build": "(yarn build:remove) && (yarn build:transpile) && (yarn build:typescript:types) && (yarn format)",
+    "build": "(yarn verify:dups) && (yarn build:remove) && (yarn build:transpile) && (yarn build:typescript:types) && (yarn format)",
     "build:remove": "rimraf dist",
+    "build:watch": "babel src -d dist --extensions \".js,.jsx,.ts,.tsx\" --ignore \"**/*.test.js\" --verbose --copy-files --no-copy-ignored --watch",
     "build:transpile": "babel src -d dist --extensions \".js,.jsx,.ts,.tsx\" --ignore \"**/*.test.js\" --verbose --copy-files --no-copy-ignored",
     "build:typescript:types": "tsc",
     "format": "prettier --write \"**/*.{js,ts,json}\"",
@@ -13,6 +14,7 @@
     "prepublishOnly": "(yarn build)",
     "postinstall": "echo \"Installation complete!\"",
     "test:dups": "yarn yarn-deduplicate --list --fail",
+    "verify:dups": "./verify-integrity.sh",
     "test": "mocha --require @babel/register ./test/*.js"
   },
   "repository": {
@@ -37,6 +39,7 @@
     "@types/circular-json": "^0.4.0",
     "chai": "^4.2.0",
     "circular-json": "^0.5.9",
+    "console-log-colors": "^0.4.0",
     "farmhash": "^3.0.0",
     "fast-json-stringify": "^2.0.0",
     "hash-sum": "^2.0.0",

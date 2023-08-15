@@ -2,15 +2,18 @@
 
 import hashSum from 'hash-sum';
 import circularJson from 'circular-json';
-import { has, isNil } from 'lodash';
+import { get, has, isNil } from 'lodash';
+import { grey } from 'console-log-colors';
 
 const allowedLogLevel = ['log', 'warn', 'error'] as const;
+
+const PKG_NAME = '[redux-duplicate-actions]';
 
 type LogLevel = (typeof allowedLogLevel)[number];
 
 interface LogOptions {
   logLevel: LogLevel;
-  message: string;
+  message: string | string[];
 }
 
 type Log = (options: LogOptions) => void;
@@ -24,6 +27,7 @@ interface DefaultOptions {
 }
 
 interface ReduxAction {
+  target?: string;
   [key: string]: unknown;
 }
 
@@ -37,14 +41,17 @@ interface State {
 
 const DEFAULT_OPTIONS: DefaultOptions = {
   fatal: true,
-  logLevel: 'warn',
+  logLevel: 'log',
   payloadKey: 'payload'
 };
 
 const log: Log = ({ logLevel, message }) => {
   if (has(console, logLevel)) {
     const logFunc = console[logLevel];
-    logFunc(message);
+    logFunc(
+      grey.bold(PKG_NAME),
+      ...(Array.isArray(message) ? message : [message])
+    );
   }
 };
 
@@ -57,12 +64,18 @@ const processActionIfPayloadFunction =
       const actionPayload = action[payloadKey];
       if (typeof actionPayload === 'function') {
         try {
-          const newPayload = actionPayload(state);
-          return { ...action, [payloadKey]: newPayload };
-        } catch (e) {
+          const resolvedState = get(state, action?.target || '', state);
+          const newPayload = actionPayload(resolvedState);
+          const resolvedAction = { ...action, [payloadKey]: newPayload };
+          return resolvedAction;
+        } catch (e: any) {
           log({
             logLevel,
-            message: `[redux-duplicate-actions] Unable to run payload function, returning original action. MORE INFO: ${e}`
+            message: `Unable to run payload function, returning original action. MORE INFO: ${e}`
+          });
+          log({
+            logLevel,
+            message: e
           });
           return action;
         }
@@ -95,7 +108,7 @@ const checkDuplicateDispatch = (options: DefaultOptions | boolean) => {
   if (typeof options === 'boolean') {
     log({
       logLevel: 'log',
-      message: `[redux-duplicate-actions] Passing a boolean to redux-duplicate-actions is deprecated. Please use the options in the README.md instead.`
+      message: `Passing a boolean to redux-duplicate-actions is deprecated. Please use the options in the README.md instead.`
     });
     mergedOptions = { ...DEFAULT_OPTIONS, fatal: options };
   } else {
@@ -139,8 +152,8 @@ const checkDuplicateDispatch = (options: DefaultOptions | boolean) => {
       return next(action);
     } else {
       // Define message
-      let message = `[redux-duplicate-actions] A duplicate action has been detected. MORE INFO: ${circularJson.stringify(
-        action,
+      let message = `A duplicate action has been detected. \n\nAction Unique Hash: ${lastActionHash}\n\nAction:\n\n${circularJson.stringify(
+        processedAction,
         null,
         2
       )}`;
@@ -150,8 +163,18 @@ const checkDuplicateDispatch = (options: DefaultOptions | boolean) => {
       } else {
         log({
           logLevel,
-          message
+          message: `A duplicate action has been detected.`
         });
+        log({
+          logLevel,
+          message: `Unique action hash: ${lastActionHash}`
+        });
+        // We only show this if the action key payload was a function
+        if (typeof action[payloadKey] === 'function') {
+          console.log(grey.bold(PKG_NAME), 'Unpacked action:', processedAction);
+        }
+        // Always show the original action
+        console.log(grey.bold(PKG_NAME), 'Original action:', action);
         return next(action);
       }
     }
