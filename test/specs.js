@@ -2,11 +2,11 @@
 
 // Load NPM modules
 import { assert } from 'chai';
-import checkDispatch from '../src/index';
+import reduxDuplicateActions from '../dist/index';
 
 // Get middleware instalce
-const middlewareFatal = new checkDispatch(true);
-const middlewareNonFatal = new checkDispatch(false);
+const middlewareFatal = new reduxDuplicateActions({ fatal: true });
+const middlewareNonFatal = new reduxDuplicateActions({ fatal: false });
 
 // Remove console.warn
 console.warn = () => {};
@@ -21,8 +21,8 @@ const actionOne = {
     nothing: undefined,
     func: () => {},
     array: [1, 2, 3, 4, 5, 6],
-    bool: true,
-  },
+    bool: true
+  }
 };
 const actionTwo = {
   type: 'TEST_ACTION_ONE',
@@ -33,8 +33,8 @@ const actionTwo = {
     nothing: undefined,
     func: () => {},
     array: [1, 2, 3, 4, 5, 6],
-    bool: true,
-  },
+    bool: true
+  }
 };
 const actionThree = {
   type: 'TEST_ACTION_TWO',
@@ -45,8 +45,8 @@ const actionThree = {
     nothing: undefined,
     func: () => {},
     array: [1, 2, 3, 4, 5, 6],
-    bool: true,
-  },
+    bool: true
+  }
 };
 const actionFour = {
   type: 'TEST_ACTION_TWO',
@@ -57,8 +57,23 @@ const actionFour = {
     nothing: undefined,
     func: () => {},
     array: [1, 2, 3, 4, 5, 6],
-    bool: true,
-  },
+    bool: true
+  }
+};
+
+const actionFive = {
+  type: 'TEST_ACTION_THREE',
+  payload: state => {
+    return {
+      ...state,
+      string: 'Ahh well...',
+      number: 100,
+      object: {
+        a: 1
+      },
+      bool: true
+    };
+  }
 };
 
 // Test
@@ -161,6 +176,34 @@ describe('redux-duplicate-actions', () => {
     }, TypeError);
   });
 
+  it('action type: five | should not throw a "TypeError", non duplicate action', () => {
+    const state = {
+      randomKey: 'randomValue'
+    };
+    const getState = () => state;
+    const next = () => {
+      const state = getState();
+      state.prop = 0;
+    };
+    assert.doesNotThrow(() => {
+      middlewareFatal({ dispatch, getState })(next)(actionFive);
+    }, TypeError);
+  });
+
+  it('action type: five | should throw a "TypeError", duplicate action', () => {
+    const state = {
+      randomKey: 'randomValue'
+    };
+    const getState = () => state;
+    const next = () => {
+      const state = getState();
+      state.prop = 0;
+    };
+    assert.throws(() => {
+      middlewareFatal({ dispatch, getState })(next)(actionFive);
+    }, TypeError);
+  });
+
   it('action type: one | should not throw a "TypeError", non duplicate action', () => {
     const state = {};
     const getState = () => state;
@@ -254,6 +297,34 @@ describe('redux-duplicate-actions', () => {
     };
     assert.doesNotThrow(() => {
       middlewareNonFatal({ dispatch, getState })(next)(actionFour);
+    }, TypeError);
+  });
+
+  it('action type: five | should not throw a "TypeError", non duplicate action', () => {
+    const state = {
+      randomKey: 'randomValue'
+    };
+    const getState = () => state;
+    const next = () => {
+      const state = getState();
+      state.prop = 0;
+    };
+    assert.doesNotThrow(() => {
+      middlewareNonFatal({ dispatch, getState })(next)(actionFive);
+    }, TypeError);
+  });
+
+  it('action type: five | should throw a "TypeError", duplicate action', () => {
+    const state = {
+      randomKey: 'randomValue'
+    };
+    const getState = () => state;
+    const next = () => {
+      const state = getState();
+      state.prop = 0;
+    };
+    assert.doesNotThrow(() => {
+      middlewareNonFatal({ dispatch, getState })(next)(actionFive);
     }, TypeError);
   });
 });

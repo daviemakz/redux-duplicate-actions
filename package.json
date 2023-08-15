@@ -1,14 +1,19 @@
 {
   "name": "redux-duplicate-actions",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "This is a redux middleware that detects duplicate actions & shows this in the console. You can choose to make them fatal errors or friendly warnings! Development use only!",
   "main": "dist/index.js",
   "scripts": {
-    "pretest": "npm run postinstall",
-    "test": "mocha --require @babel/register ./test/*.js",
-    "format": "prettier --single-quote --trailing-comma=es5 --write './**/*.js'",
+    "build": "(yarn build:remove) && (yarn build:transpile) && (yarn build:typescript:types) && (yarn format)",
+    "build:remove": "rimraf dist",
+    "build:transpile": "babel src -d dist --extensions \".js,.jsx,.ts,.tsx\" --ignore \"**/*.test.js\" --verbose --copy-files --no-copy-ignored",
+    "build:typescript:types": "tsc",
+    "format": "prettier --write \"**/*.{js,ts,json}\"",
+    "pretest": "(yarn postinstall)",
+    "prepublishOnly": "(yarn build)",
     "postinstall": "echo \"Installation complete!\"",
-    "build": "rimraf dist && babel src --out-dir dist && git add ."
+    "test:dups": "yarn yarn-deduplicate --list --fail",
+    "test": "mocha --require @babel/register ./test/*.js"
   },
   "repository": {
     "type": "git",
@@ -29,13 +34,15 @@
     "@babel/core": "^7.13.14",
     "@babel/preset-env": "^7.13.12",
     "@babel/register": "^7.13.14",
+    "@types/circular-json": "^0.4.0",
     "chai": "^4.2.0",
     "circular-json": "^0.5.9",
     "farmhash": "^3.0.0",
     "fast-json-stringify": "^2.0.0",
-    "lodash": "^4.17.15",
+    "hash-sum": "^2.0.0",
+    "lodash": "^4.17.21",
     "md5": "^2.2.1",
-    "prettier": "^2.0.0",
+    "prettier": "3.0.1",
     "rimraf": "^3.0.0"
   },
   "license": "MIT",
@@ -44,6 +51,15 @@
   },
   "homepage": "https://github.com/daviemakz/redux-duplicate-actions#readme",
   "devDependencies": {
-    "mocha": "^7.0.1"
+    "@babel/preset-typescript": "^7.22.5",
+    "@tsconfig/recommended": "^1.0.2",
+    "@types/hash-sum": "^1.0.0",
+    "@types/lodash": "^4.14.197",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.4.0",
+    "eslint": "^8.47.0",
+    "mocha": "^7.0.1",
+    "typescript": "^5.1.6",
+    "yarn-deduplicate": "^6.0.2"
   }
 }

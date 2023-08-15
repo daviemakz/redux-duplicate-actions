@@ -1,6 +1,5 @@
 <p align="left">
 <a href="https://www.npmjs.com/package/redux-duplicate-actions" target="_blank"><img src="https://img.shields.io/npm/v/redux-duplicate-actions" alt="npm"/></a>
-<a href="https://travis-ci.org/daviemakz/redux-duplicate-actions" target="_blank"><img src="https://travis-ci.org/daviemakz/redux-duplicate-actions.svg?branch=master" alt="Build Status"/></a>
 <a href="https://www.npmjs.com/package/redux-duplicate-actions" target="_blank"><img src="https://img.shields.io/npm/dm/redux-duplicate-actions.svg" alt="Downloads"/></a>
 <a href="https://github.com/daviemakz/redux-duplicate-actions/issues" target="_blank"><img src="https://img.shields.io/github/issues/daviemakz/redux-duplicate-actions" alt="GitHub issues"/></a>
 <a href="https://github.com/daviemakz/redux-duplicate-actions/pulls" target="_blank"><img src="https://img.shields.io/github/issues-pr/daviemakz/redux-duplicate-actions" alt="GitHub pull requests"/></a>
@@ -14,13 +13,42 @@ This is a redux middleware that detects duplicate actions &amp; shows this in th
 
 _Supports Node 10.x +_
 
+### Installation
+
+Run this in the terminal:
+
+```bash
+npm install --save-dev redux-duplicate-actions
+```
+
+or
+
+```bash
+yarn add -D redux-duplicate-actions
+```
+
 ## Usage
+
+Supported options:
+
+`fatal` (type: boolean) - if true, will throw an error when a duplicate action is detected. Default is false.
+
+`logLevel` (type: 'log' | 'warn' | 'error') - the level of logging to the console. Default is "warn".
+
+`payloadKey` (type: string) - the key to use to get the payload for the redux action. Default is "payload".
 
 ```js
 if (__DEV__) {
-  const reduxDuplicateActions = require("redux-duplicate-actions")(true);
+  // To thrown fatal error on duplicate action
+  const reduxDuplicateActions = require("redux-duplicate-actions")({
+    fatal: true,
+  });
   reduxMiddleware.push(reduxDuplicateActions);
-  const reduxDuplicateActions = require("redux-duplicate-actions")(false);
+
+  // To log duplicate action as warning
+  const reduxDuplicateActions = require("redux-duplicate-actions")({
+    fatal: false
+  });
   reduxMiddleware.push(reduxDuplicateActions);
 }
 ```
@@ -29,7 +57,7 @@ if (__DEV__) {
 
 Run the following commands to test the module:
 
-`npm install && npm test`
+`yarn install && yarn test`
 
 ## Contributing
 

@@ -1,0 +1,21 @@
+{
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2016", "dom"],
+    "target": "es6",
+    "sourceMap": true,
+    "pretty": true,
+    "esModuleInterop": true,
+    "emitDeclarationOnly": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "declaration": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "packages/"
+  },
+  "include": ["./src/*"],
+  "compileOnSave": true
+}
