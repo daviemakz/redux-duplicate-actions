@@ -42,11 +42,13 @@ yarn add -D redux-duplicate-actions
 
 Supported options:
 
-`fatal` (type: boolean) - if true, will throw an error when a duplicate action is detected. Default is false.
+`fatal` (type: boolean) - if `true`, will throw an error when a duplicate action is detected. Default is `false`.
 
-`logLevel` (type: 'log' | 'warn' | 'error') - the level of logging to the console. Default is "warn".
+`logLevel` (type: 'log' | 'warn' | 'error') - the level of logging to the console. Default is `"warn"`.
 
-`payloadKey` (type: string) - the key to use to get the payload for the redux action. Default is "payload".
+`payloadKey` (type: string) - the key to use to get the payload for the redux action. Default is `"payload"`.
+
+`unpackPayloadIfFunction` (type: boolean) - if true, will attempt to unpack the payload if it is a function. Default is `true`.
 
 ```js
 if (__DEV__) {

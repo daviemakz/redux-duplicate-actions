@@ -24,6 +24,7 @@ interface DefaultOptions {
   fatal: boolean;
   logLevel: LogLevel;
   payloadKey: string;
+  unpackPayloadIfFunction?: boolean;
 }
 
 interface ReduxAction {
@@ -41,6 +42,7 @@ interface State {
 
 const DEFAULT_OPTIONS: DefaultOptions = {
   fatal: true,
+  unpackPayloadIfFunction: false,
   logLevel: 'log',
   payloadKey: 'payload'
 };
@@ -59,15 +61,19 @@ const processActionIfPayloadFunction =
   (options: DefaultOptions) =>
   (action: ReduxAction) =>
   (state: State): ReduxAction => {
-    const { payloadKey, logLevel } = options;
+    const { payloadKey, logLevel, unpackPayloadIfFunction } = options;
     if (has(action, payloadKey)) {
       const actionPayload = action[payloadKey];
       if (typeof actionPayload === 'function') {
         try {
-          const resolvedState = get(state, action?.target || '', state);
-          const newPayload = actionPayload(resolvedState);
-          const resolvedAction = { ...action, [payloadKey]: newPayload };
-          return resolvedAction;
+          if (unpackPayloadIfFunction) {
+            const resolvedState = get(state, action?.target || '', state);
+            const newPayload = actionPayload(resolvedState);
+            const resolvedAction = { ...action, [payloadKey]: newPayload };
+            return resolvedAction;
+          } else {
+            return action;
+          }
         } catch (e: any) {
           log({
             logLevel,
@@ -97,6 +103,9 @@ const isOptionsValid = (options: DefaultOptions) => {
   if (!isNil(options.fatal) && typeof options.fatal !== 'boolean') {
     return { result: false, message: `fatal must be a boolean` };
   }
+  if (!isNil(options.fatal) && typeof options.fatal !== 'boolean') {
+    return { result: false, message: `fatal must be a boolean` };
+  }
   return { result: true, message: '' };
 };
 
@@ -121,7 +130,8 @@ const checkDuplicateDispatch = (options: DefaultOptions | boolean) => {
     throw new TypeError(`Invalid options: ${message}`);
   }
 
-  const { fatal, logLevel, payloadKey } = mergedOptions;
+  const { fatal, logLevel, payloadKey, unpackPayloadIfFunction } =
+    mergedOptions;
 
   // Track hash of last action
   let lastActionHash = '';
@@ -151,15 +161,15 @@ const checkDuplicateDispatch = (options: DefaultOptions | boolean) => {
       updateHash(processedAction);
       return next(action);
     } else {
-      // Define message
-      let message = `A duplicate action has been detected. \n\nAction Unique Hash: ${lastActionHash}\n\nAction:\n\n${circularJson.stringify(
-        processedAction,
-        null,
-        2
-      )}`;
       // Handle fatal or not?
       if (fatal) {
-        throw new TypeError(message);
+        throw new TypeError(
+          `A duplicate action has been detected. \n\nAction Unique Hash: ${lastActionHash}\n\nAction:\n\n${circularJson.stringify(
+            processedAction,
+            null,
+            2
+          )}`
+        );
       } else {
         log({
           logLevel,
@@ -170,7 +180,10 @@ const checkDuplicateDispatch = (options: DefaultOptions | boolean) => {
           message: `Unique action hash: ${lastActionHash}`
         });
         // We only show this if the action key payload was a function
-        if (typeof action[payloadKey] === 'function') {
+        if (
+          typeof action[payloadKey] === 'function' &&
+          unpackPayloadIfFunction
+        ) {
           console.log(grey.bold(PKG_NAME), 'Unpacked action:', processedAction);
         }
         // Always show the original action

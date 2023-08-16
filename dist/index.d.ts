@@ -5,6 +5,7 @@ interface DefaultOptions {
   fatal: boolean;
   logLevel: LogLevel;
   payloadKey: string;
+  unpackPayloadIfFunction?: boolean;
 }
 interface ReduxAction {
   target?: string;

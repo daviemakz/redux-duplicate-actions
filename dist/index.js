@@ -112,6 +112,7 @@ var allowedLogLevel = ['log', 'warn', 'error'];
 var PKG_NAME = '[redux-duplicate-actions]';
 var DEFAULT_OPTIONS = {
   fatal: true,
+  unpackPayloadIfFunction: false,
   logLevel: 'log',
   payloadKey: 'payload'
 };
@@ -137,28 +138,34 @@ var processActionIfPayloadFunction = function processActionIfPayloadFunction(
   return function (action) {
     return function (state) {
       var payloadKey = options.payloadKey,
-        logLevel = options.logLevel;
+        logLevel = options.logLevel,
+        unpackPayloadIfFunction = options.unpackPayloadIfFunction;
 
       if ((0, _lodash.has)(action, payloadKey)) {
         var actionPayload = action[payloadKey];
 
         if (typeof actionPayload === 'function') {
           try {
-            var resolvedState = (0, _lodash.get)(
-              state,
-              (action === null || action === void 0 ? void 0 : action.target) ||
-                '',
-              state
-            );
-            var newPayload = actionPayload(resolvedState);
+            if (unpackPayloadIfFunction) {
+              var resolvedState = (0, _lodash.get)(
+                state,
+                (action === null || action === void 0
+                  ? void 0
+                  : action.target) || '',
+                state
+              );
+              var newPayload = actionPayload(resolvedState);
 
-            var resolvedAction = _objectSpread(
-              _objectSpread({}, action),
-              {},
-              _defineProperty({}, payloadKey, newPayload)
-            );
+              var resolvedAction = _objectSpread(
+                _objectSpread({}, action),
+                {},
+                _defineProperty({}, payloadKey, newPayload)
+              );
 
-            return resolvedAction;
+              return resolvedAction;
+            } else {
+              return action;
+            }
           } catch (e) {
             log({
               logLevel: logLevel,
@@ -212,6 +219,16 @@ var isOptionsValid = function isOptionsValid(options) {
     };
   }
 
+  if (
+    !(0, _lodash.isNil)(options.fatal) &&
+    typeof options.fatal !== 'boolean'
+  ) {
+    return {
+      result: false,
+      message: 'fatal must be a boolean'
+    };
+  }
+
   return {
     result: true,
     message: ''
@@ -249,7 +266,8 @@ var checkDuplicateDispatch = function checkDuplicateDispatch(options) {
   var _mergedOptions = mergedOptions,
     fatal = _mergedOptions.fatal,
     logLevel = _mergedOptions.logLevel,
-    payloadKey = _mergedOptions.payloadKey; // Track hash of last action
+    payloadKey = _mergedOptions.payloadKey,
+    unpackPayloadIfFunction = _mergedOptions.unpackPayloadIfFunction; // Track hash of last action
 
   var lastActionHash = ''; // Declare functions
 
@@ -283,16 +301,15 @@ var checkDuplicateDispatch = function checkDuplicateDispatch(options) {
           updateHash(processedAction);
           return next(action);
         } else {
-          // Define message
-          var _message =
-            'A duplicate action has been detected. \n\nAction Unique Hash: '
-              .concat(lastActionHash, '\n\nAction:\n\n')
-              .concat(
-                _circularJson['default'].stringify(processedAction, null, 2)
-              ); // Handle fatal or not?
-
+          // Handle fatal or not?
           if (fatal) {
-            throw new TypeError(_message);
+            throw new TypeError(
+              'A duplicate action has been detected. \n\nAction Unique Hash: '
+                .concat(lastActionHash, '\n\nAction:\n\n')
+                .concat(
+                  _circularJson['default'].stringify(processedAction, null, 2)
+                )
+            );
           } else {
             log({
               logLevel: logLevel,
@@ -303,7 +320,10 @@ var checkDuplicateDispatch = function checkDuplicateDispatch(options) {
               message: 'Unique action hash: '.concat(lastActionHash)
             }); // We only show this if the action key payload was a function
 
-            if (typeof action[payloadKey] === 'function') {
+            if (
+              typeof action[payloadKey] === 'function' &&
+              unpackPayloadIfFunction
+            ) {
               console.log(
                 _consoleLogColors.grey.bold(PKG_NAME),
                 'Unpacked action:',
