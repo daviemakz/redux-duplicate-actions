@@ -9,7 +9,7 @@ const allowedLogLevel = ['log', 'warn', 'error'] as const;
 
 const PKG_NAME = '[redux-duplicate-actions]';
 
-type LogLevel = (typeof allowedLogLevel)[number];
+type LogLevel = typeof allowedLogLevel[number];
 
 interface LogOptions {
   logLevel: LogLevel;
