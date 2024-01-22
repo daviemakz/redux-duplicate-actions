@@ -1,5 +1,5 @@
 declare const allowedLogLevel: readonly ['log', 'warn', 'error'];
-type LogLevel = typeof allowedLogLevel[number];
+type LogLevel = (typeof allowedLogLevel)[number];
 type Next = (action: ReduxAction) => void;
 interface DefaultOptions {
   fatal: boolean;

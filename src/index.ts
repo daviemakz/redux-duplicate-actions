@@ -9,7 +9,7 @@ const allowedLogLevel = ['log', 'warn', 'error'] as const;
 
 const PKG_NAME = '[redux-duplicate-actions]';
 
-type LogLevel = typeof allowedLogLevel[number];
+type LogLevel = (typeof allowedLogLevel)[number];
 
 interface LogOptions {
   logLevel: LogLevel;
@@ -74,14 +74,14 @@ const processActionIfPayloadFunction =
           } else {
             return action;
           }
-        } catch (e: any) {
+        } catch (e: unknown) {
           log({
             logLevel,
             message: `Unable to run payload function, returning original action. MORE INFO: ${e}`
           });
           log({
             logLevel,
-            message: e
+            message: (e as Error)?.message
           });
           return action;
         }
@@ -98,13 +98,13 @@ const isOptionsValid = (options: DefaultOptions) => {
     };
   }
   if (!isNil(options.payloadKey) && typeof options.payloadKey !== 'string') {
-    return { result: false, message: `payloadKey must be a string` };
+    return { result: false, message: 'payloadKey must be a string' };
   }
   if (!isNil(options.fatal) && typeof options.fatal !== 'boolean') {
-    return { result: false, message: `fatal must be a boolean` };
+    return { result: false, message: 'fatal must be a boolean' };
   }
   if (!isNil(options.fatal) && typeof options.fatal !== 'boolean') {
-    return { result: false, message: `fatal must be a boolean` };
+    return { result: false, message: 'fatal must be a boolean' };
   }
   return { result: true, message: '' };
 };
@@ -117,7 +117,8 @@ const checkDuplicateDispatch = (options: DefaultOptions | boolean) => {
   if (typeof options === 'boolean') {
     log({
       logLevel: 'log',
-      message: `Passing a boolean to redux-duplicate-actions is deprecated. Please use the options in the README.md instead.`
+      message:
+        'Passing a boolean to redux-duplicate-actions is deprecated. Please use the options in the README.md instead.'
     });
     mergedOptions = { ...DEFAULT_OPTIONS, fatal: options };
   } else {
@@ -173,7 +174,7 @@ const checkDuplicateDispatch = (options: DefaultOptions | boolean) => {
       } else {
         log({
           logLevel,
-          message: `A duplicate action has been detected.`
+          message: 'A duplicate action has been detected.'
         });
         log({
           logLevel,
